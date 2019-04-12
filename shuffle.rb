@@ -10,6 +10,6 @@ post('/') do
 end
 
 def text
-  names = ENV['TEAM_NAMES']..split(/,/)
+  names = ENV['TEAM_NAMES'].split(/;/)
   names.shuffle.join(', ')
 end
