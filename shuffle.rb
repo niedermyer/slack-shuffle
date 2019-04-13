@@ -12,5 +12,5 @@ end
 def text
   names = ENV['TEAM_NAMES'].split(/;/)
   names.shuffle.join(', ')
-  name
+  names
 end
