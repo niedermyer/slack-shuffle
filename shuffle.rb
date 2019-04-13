@@ -11,6 +11,8 @@ end
 
 def text
   names = ENV['TEAM_NAMES'].split(/;/)
-  names.shuffle.join(', ')
-  names.to_s
+  names = names.shuffle
+  names = names.map.with_index(1) { |name, i| "#{i}. #{name}" }
+  names = names.join('\n')
+  names
 end
