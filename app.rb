@@ -27,7 +27,7 @@ post('/estimate') do
 
   estimate = params['text']
   text = "<@#{params['user_id']}> ********"
-  attachment = [
+  attachments = [
     {
       "type": "context",
       "elements": [
@@ -73,9 +73,9 @@ post('/estimate') do
     }
   ]
 
-  HTTParty.post(ENV['OLD_WEBHOOK_URL'], body: { text: text, attachment: attachment, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username }.to_json )
+  HTTParty.post(ENV['OLD_WEBHOOK_URL'], body: { text: text, attachments: attachments, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username }.to_json )
 
-  "Estimate of #{estimate} sent to ENV['CHANNEL_OR_USER']"
+  "Estimate of #{estimate} sent to #{ENV['CHANNEL_OR_USER']}"
 end
 
 
