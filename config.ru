@@ -1,2 +1,2 @@
-require './shuffle'
+require './app'
 run Sinatra::Application

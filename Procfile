@@ -1,1 +1,1 @@
-web: bundle exec ruby shuffle.rb
+web: bundle exec ruby app.rb
