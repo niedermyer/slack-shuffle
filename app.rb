@@ -26,7 +26,7 @@ post('/estimate') do
   username = "Story Estimate"
 
   estimate = params['text']
-  text = "<@#{params['user_id']}> ********"
+  text = "<@#{params['user_id']} | real_name> ********"
   attachments = [
     {
       "type": "context",
