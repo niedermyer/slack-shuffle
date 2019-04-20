@@ -30,6 +30,8 @@ end
 
 post('/estimate') do
 
+  log(message: params)
+
   icon = ':game_die:'
   username = "Story Estimate"
 
@@ -37,7 +39,7 @@ post('/estimate') do
   user_real_name = user['profile']['real_name']
 
   estimate = params['text']
-  text = "#{user_real_name} ********"
+
   blocks = [
     {
       "type": "context",
@@ -103,12 +105,14 @@ post('/estimate') do
     }
   ]
 
-  body = { text: text, blocks: blocks, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username, as_user: false }.to_json
+  body = { blocks: blocks, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username, as_user: false }.to_json
 
 
   HTTParty.post(ENV['WEBHOOK_URL'], body: body )
+  client.chat_postMessage(blocks: blocks.to_json, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username, as_user: false)
+  client.chat_postEphemeral(text: "Estimate of #{estimate} sent to #{ENV['CHANNEL_OR_USER']}", channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username, as_user: false)
 
-  "Estimate of #{estimate} sent to #{ENV['CHANNEL_OR_USER']}"
+  status 200
 end
 
 post('/response') do
