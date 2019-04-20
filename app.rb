@@ -199,7 +199,7 @@ post('/response') do
       channel: channel,
       ts: ts
     }
-    response = HTTParty.post(client.chat_delete, body: body)
+    response = client.chat_delete(body)
 
     log(message: response)
     status 200
