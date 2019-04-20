@@ -193,14 +193,13 @@ post('/response') do
     status 200
   when 'delete'
     ts = request_data['message']['ts']
+    channel = request_data['channel']['id']
 
     body = {
-      response_type: "block_actions",
-      replace_original: true,
-      delete_original: true,
-      blocks: []
+      channel: channel,
+      ts: ts
     }
-    response = HTTParty.post(request_data['response_url'], body: body, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username )
+    response = HTTParty.post(client.chat_delete, body: body)
 
     log(message: response)
     status 200
