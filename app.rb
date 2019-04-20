@@ -118,6 +118,9 @@ post('/response') do
   icon = ':game_die:'
   username = "Story Estimate"
 
+  user = HTTParty.get("https://slack.com/api/users.info?token=#{ENV['SLACK_API_TOKEN']}&user=#{params['user_id']}&pretty=1" )['user']
+  user_real_name = user['profile']['real_name']
+
   request_data = JSON.parse(params['payload'])
   action = request_data['actions'][0]
 
