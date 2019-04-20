@@ -8,7 +8,7 @@ Slack.configure do |config|
 end
 
 # Slack Ruby client
-$client = Slack::Web::Client.new
+client = Slack::Web::Client.new
 
 
 # ENV['TEAM_NAMES'] stored as ; delimited list of names (i.e. Jane;John;Chris)
