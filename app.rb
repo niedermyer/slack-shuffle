@@ -181,7 +181,10 @@ post('/response') do
 
     body = { blocks: blocks }.to_json
 
-    HTTParty.post(request_data['response_url'], body: body, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username )
+    response = HTTParty.post(request_data['response_url'], body: body, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username )
+
+    log(message: response)
+    status 200
   when 'delete'
     ts = request_data['message']['ts']
 
