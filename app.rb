@@ -103,7 +103,7 @@ post('/estimate') do
     }
   ]
 
-  body = { text: text, blocks: blocks, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username }.to_json
+  body = { text: text, blocks: blocks, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username, as_user: false }.to_json
 
 
   HTTParty.post(ENV['WEBHOOK_URL'], body: body )
@@ -180,9 +180,9 @@ post('/response') do
       }
     ]
 
-    body = { blocks: blocks }.to_json
+    body = { blocks: blocks, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username, as_user: false }.to_json
 
-    response = HTTParty.post(request_data['response_url'], body: body, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username )
+    response = HTTParty.post(request_data['response_url'], body: body )
 
     log(message: response)
     status 200
