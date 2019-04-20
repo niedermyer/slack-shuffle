@@ -194,7 +194,13 @@ post('/response') do
   when 'delete'
     ts = request_data['message']['ts']
 
-    response = HTTParty.post(request_data['response_url'], body: { blocks: [] }.to_json, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username )
+    body = {
+      response_type: "message",
+      replace_original: true,
+      delete_original: true,
+      text: ""
+    }
+    response = HTTParty.post(request_data['response_url'], body: body, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username )
 
     log(message: response)
     status 200
