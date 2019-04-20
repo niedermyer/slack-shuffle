@@ -8,7 +8,7 @@ Slack.configure do |config|
 end
 
 # Slack Ruby client
-client = Slack::Web::Client.new
+$client = Slack::Web::Client.new
 
 
 # ENV['TEAM_NAMES'] stored as ; delimited list of names (i.e. Jane;John;Chris)
@@ -193,14 +193,14 @@ post('/response') do
     status 200
   when 'delete'
     ts = request_data['message']['ts']
-    channel = request_data['channel']['id']
 
     body = {
-      channel: channel,
-      ts: ts,
-      as_user: true
+      response_type: "in_channel",
+      replace_original: true,
+      delete_original: true,
+      text: ""
     }
-    response = client.chat_delete(body)
+    response = HTTParty.post(request_data['response_url'], body: body, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username )
 
     log(message: response)
     status 200
