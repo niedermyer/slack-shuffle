@@ -121,6 +121,9 @@ post('/response') do
   request_data = params['payload']
   action = request_data['actions'][0]
 
+  log(message: action)
+  log(message: action['action_id'])
+
   case action['action_id']
   when 'reveal'
     estimate = action['value']
