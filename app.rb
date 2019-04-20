@@ -115,6 +115,9 @@ post('/response') do
   logger.info('I GOT A RESPONSE!!!!')
   log(message: params, delimiter: '-')
 
+  icon = ':game_die:'
+  username = "Story Estimate"
+
   request_data = params['payload']
   action = request_data['actions'][0]
 
@@ -178,7 +181,7 @@ post('/response') do
 
     body = { blocks: blocks }.to_json
 
-    HTTParty.post(request_data['response_url'], body: body )
+    HTTParty.post(request_data['response_url'], body: body, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username )
   when 'delete'
     ts = request_data['message']['ts']
 
