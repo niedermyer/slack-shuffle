@@ -15,7 +15,7 @@ client = Slack::Web::Client.new
 
 # TODO: delete this endpoint and OLD_WEBHOOK_URL after completion of new endpoints
 post('/') do
-  HTTParty.post(ENV['OLD_WEBHOOK_URL'], body: { text: text, channel: ENV['CHANNEL_OR_USER'], icon_emoji: ENV['ICON_EMOJI'], username: ENV['USERNAME'] }.to_json )
+  HTTParty.post(ENV['OLD_WEBHOOK_URL'], body: { text: default_text, channel: ENV['CHANNEL_OR_USER'], icon_emoji: ENV['ICON_EMOJI'], username: ENV['USERNAME'] }.to_json )
 end
 
 post('/standup') do
