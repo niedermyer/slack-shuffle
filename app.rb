@@ -56,6 +56,34 @@ post('/estimate') do
       "text": {
         "type": "mrkdwn",
         "text": "********"
+      },
+      "accessory": {
+        "type": "button",
+        "text": {
+          "type": "plain_text",
+          "text": "Delete"
+        },
+        "style": "danger",
+        "value": "delete",
+        "action_id": "delete",
+        "confirm": {
+          "title": {
+            "type": "plain_text",
+            "text": "Delete #{user_real_name}'s Estimate?"
+          },
+          "text": {
+            "type": "mrkdwn",
+            "text": "Are you sure that you want to delete this estimate?"
+          },
+          "confirm": {
+            "type": "plain_text",
+            "text": "Yes, delete it!"
+          },
+          "deny": {
+            "type": "plain_text",
+            "text": "Nevermind"
+          }
+        }
       }
     },
     {
@@ -70,34 +98,6 @@ post('/estimate') do
           "style": "primary",
           "value": estimate,
           "action_id": "reveal"
-        },
-        {
-          "type": "button",
-          "text": {
-            "type": "plain_text",
-            "text": "Delete"
-          },
-          "style": "danger",
-          "value": "delete",
-          "action_id": "delete",
-          "confirm": {
-            "title": {
-              "type": "plain_text",
-              "text": "Delete #{user_real_name}'s Estimate?"
-            },
-            "text": {
-              "type": "mrkdwn",
-              "text": "Are you sure that you want to delete this estimate?"
-            },
-            "confirm": {
-              "type": "plain_text",
-              "text": "Yes, delete it!"
-            },
-            "deny": {
-              "type": "plain_text",
-              "text": "Nevermind, I'll keep it"
-            }
-          }
         }
       ]
     }
@@ -150,38 +150,33 @@ post('/response') do
           "text": estimate
         }
       },
-      {
-        "type": "actions",
-        "elements": [
-          {
-            "type": "button",
-            "text": {
-              "type": "plain_text",
-              "text": "Delete"
-            },
-            "style": "danger",
-            "value": "delete",
-            "action_id": "delete",
-            "confirm": {
-              "title": {
-                "type": "plain_text",
-                "text": "Delete #{user_real_name}'s Estimate?"
-              },
-              "text": {
-                "type": "mrkdwn",
-                "text": "Are you sure that you want to delete this estimate?"
-              },
-              "confirm": {
-                "type": "plain_text",
-                "text": "Yes, delete it!"
-              },
-              "deny": {
-                "type": "plain_text",
-                "text": "Nevermind, I'll keep it"
-              }
-            }
+      "accessory": {
+        "type": "button",
+        "text": {
+          "type": "plain_text",
+          "text": "Delete"
+        },
+        "style": "danger",
+        "value": "delete",
+        "action_id": "delete",
+        "confirm": {
+          "title": {
+            "type": "plain_text",
+            "text": "Delete #{user_real_name}'s Estimate?"
+          },
+          "text": {
+            "type": "mrkdwn",
+            "text": "Are you sure that you want to delete this estimate?"
+          },
+          "confirm": {
+            "type": "plain_text",
+            "text": "Yes, delete it!"
+          },
+          "deny": {
+            "type": "plain_text",
+            "text": "Nevermind, I'll keep it"
           }
-        ]
+        }
       }
     ]
 
@@ -322,5 +317,4 @@ def log(message:, delimiter: '*')
   logger.info message
   logger.info ''
   logger.info delimiter*80
-
 end
