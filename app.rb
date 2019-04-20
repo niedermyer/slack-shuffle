@@ -1,6 +1,11 @@
 require 'sinatra'
+require 'slack-ruby-client'
 require 'httparty'
-require 'yaml'
+require 'json'
+
+Slack.configure do |config|
+  config.token = ENV['SLACK_API_TOKEN']
+end
 
 # ENV['TEAM_NAMES'] stored as ; delimited list of names (i.e. Jane;John;Chris)
 
@@ -20,41 +25,33 @@ post('/standup') do
 end
 
 post('/estimate') do
-  log(message: params)
 
   icon = ':game_die:'
   username = "Story Estimate"
 
+  user = HTTParty.get("https://slack.com/api/users.info?token=#{ENV['SLACK_API_TOKEN']}&user=#{params['user_id']}&pretty=1" )['user']
+  user_real_name = user['profile']['real_name']
+
   estimate = params['text']
-  text = "<@#{params['user_id']} | real_name> ********"
-  attachments = [
+  text = "#{user_real_name} ********"
+  blocks = [
     {
       "type": "context",
       "elements": [
         {
           "type": "mrkdwn",
-          "text": "*Author:* <@#{params['user_id']} | real_name>"
+          "text": "*Author:* #{user_real_name}"
         }
       ]
+    },
+    {
+      "type": "divider"
     },
     {
       "type": "section",
       "text": {
         "type": "mrkdwn",
         "text": "********"
-      },
-      "accessory": {
-        "type": "overflow",
-        "options": [
-          {
-            "text": {
-              "type": "plain_text",
-              "text": "Delete Estimate",
-              "emoji": true
-            },
-            "value": "delete"
-          }
-        ]
       }
     },
     {
@@ -64,18 +61,55 @@ post('/estimate') do
           "type": "button",
           "text": {
             "type": "plain_text",
-            "text": "Reveal",
-            "emoji": true
+            "text": "Reveal Estimate"
           },
-          "value": "reveal"
+          "style": "primary",
+          "value": "reveal",
+          "action_id": "reveal"
+        },
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "Delete"
+          },
+          "style": "danger",
+          "value": "delete",
+          "action_id": "delete",
+          "confirm": {
+            "title": {
+              "type": "plain_text",
+              "text": "Delete #{user_real_name}'s Estimate?"
+            },
+            "text": {
+              "type": "mrkdwn",
+              "text": "Are you sure that you want to delete this estimate?"
+            },
+            "confirm": {
+              "type": "plain_text",
+              "text": "Yes, delete it!"
+            },
+            "deny": {
+              "type": "plain_text",
+              "text": "Nevermind, I'll keep it"
+            }
+          }
         }
       ]
     }
   ]
 
-  HTTParty.post(ENV['OLD_WEBHOOK_URL'], body: { text: text, attachments: attachments, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username }.to_json )
+  body = { text: text, blocks: blocks, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username }.to_json
+
+
+  HTTParty.post(ENV['WEBHOOK_URL'], body: body )
 
   "Estimate of #{estimate} sent to #{ENV['CHANNEL_OR_USER']}"
+end
+
+post('/response') do
+  logger.info('I GOT A RESPONSE!!!!')
+  log(message: params, delimiter: '-')
 end
 
 
