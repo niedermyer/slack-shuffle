@@ -312,7 +312,9 @@ post('/response') do
 end
 
 
-def shuffled_names(name_list=ENV['TEAM_NAMES'])
+def shuffled_names(name_list)
+  name_list = name_list || ENV['TEAM_NAMES']
+
   names = name_list.split(/;/)
   names = names.shuffle
   names = names.map.with_index(1) { |name, i| "#{i}. #{name}\n" }
