@@ -148,35 +148,39 @@ post('/response') do
         "text": {
           "type": "mrkdwn",
           "text": estimate
-        }
-      },
-      "accessory": {
-        "type": "button",
-        "text": {
-          "type": "plain_text",
-          "text": "Delete"
         },
-        "style": "danger",
-        "value": "delete",
-        "action_id": "delete",
-        "confirm": {
-          "title": {
-            "type": "plain_text",
-            "text": "Delete #{user_real_name}'s Estimate?"
-          },
+        "accessory": {
+          "type": "button",
           "text": {
-            "type": "mrkdwn",
-            "text": "Are you sure that you want to delete this estimate?"
+            "type": "plain_text",
+            "text": "Delete"
           },
+          "style": "danger",
+          "value": "delete",
+          "action_id": "delete",
           "confirm": {
-            "type": "plain_text",
-            "text": "Yes, delete it!"
-          },
-          "deny": {
-            "type": "plain_text",
-            "text": "Nevermind, I'll keep it"
+            "title": {
+              "type": "plain_text",
+              "text": "Delete #{user_real_name}'s Estimate?"
+            },
+            "text": {
+              "type": "mrkdwn",
+              "text": "Are you sure that you want to delete this estimate?"
+            },
+            "confirm": {
+              "type": "plain_text",
+              "text": "Yes, delete it!"
+            },
+            "deny": {
+              "type": "plain_text",
+              "text": "Nevermind, I'll keep it"
+            }
           }
         }
+      },
+      {
+        "type": "actions",
+        "elements": []
       }
     ]
 
