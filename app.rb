@@ -112,8 +112,7 @@ post('/estimate') do
   client.chat_postMessage(blocks: blocks.to_json, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username, as_user: false)
   client.chat_postEphemeral(text: "Estimate of #{estimate} sent to #{ENV['CHANNEL_OR_USER']}", user: user['id'], channel: params['channel_id'], icon_emoji: icon, username: username, as_user: false)
 
-  status 200
-  ''
+  status :ok
 end
 
 post('/response') do
@@ -178,7 +177,7 @@ post('/response') do
             },
             "deny": {
               "type": "plain_text",
-              "text": "Nevermind, I'll keep it"
+              "text": "Nevermind"
             }
           }
         }
