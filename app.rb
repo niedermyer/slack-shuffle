@@ -195,10 +195,10 @@ post('/response') do
     ts = request_data['message']['ts']
 
     body = {
-      response_type: "message",
+      response_type: "block_actions",
       replace_original: true,
       delete_original: true,
-      text: ""
+      blocks: []
     }
     response = HTTParty.post(request_data['response_url'], body: body, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username )
 
