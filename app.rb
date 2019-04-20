@@ -197,7 +197,8 @@ post('/response') do
 
     body = {
       channel: channel,
-      ts: ts
+      ts: ts,
+      as_user: true
     }
     response = client.chat_delete(body)
 
