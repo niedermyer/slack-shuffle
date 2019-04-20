@@ -113,13 +113,12 @@ end
 
 post('/response') do
   logger.info('I GOT A RESPONSE!!!!')
-  log(message: params, delimiter: '-')
-  log(message: request, delimiter: '-')
+  log(message: params['payload'], delimiter: '-')
 
   icon = ':game_die:'
   username = "Story Estimate"
 
-  request_data = params['payload']
+  request_data = JSON.parse(params['payload'])
   action = request_data['actions'][0]
 
   log(message: action)
