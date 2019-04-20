@@ -115,7 +115,7 @@ post('/response') do
   logger.info('I GOT A RESPONSE!!!!')
   log(message: params, delimiter: '-')
 
-  request_data = JSON.parse(request.body.read)
+  request_data = JSON.parse(params)
   action = request_data['actions'][0]
 
   case action['action_id']
