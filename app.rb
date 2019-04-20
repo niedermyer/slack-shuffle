@@ -114,6 +114,7 @@ end
 post('/response') do
   logger.info('I GOT A RESPONSE!!!!')
   log(message: params, delimiter: '-')
+  log(message: request, delimiter: '-')
 
   icon = ':game_die:'
   username = "Story Estimate"
