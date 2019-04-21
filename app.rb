@@ -115,8 +115,8 @@ post('/estimate') do
 
 
   # HTTParty.post(ENV['WEBHOOK_URL'], body: body )
-  client.chat_postMessage(blocks: blocks.to_json, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username, as_user: false)
-  client.chat_postEphemeral(text: "Estimate of #{estimate} sent to #{ENV['CHANNEL_OR_USER']}", user: user['id'], channel: params['channel_id'], icon_url: user['profile']['avatar_hash'], username: username, as_user: false)
+  client.chat_postMessage(blocks: blocks.to_json, channel: ENV['CHANNEL_OR_USER'], icon_url: user['profile']['avatar_hash'], username: username, as_user: false)
+  client.chat_postEphemeral(text: "Estimate of #{estimate} sent to #{ENV['CHANNEL_OR_USER']}", user: user['id'], channel: params['channel_id'], icon_emoji: icon, username: username, as_user: false)
 
   status :ok
 end
@@ -140,19 +140,21 @@ post('/response') do
   case action['action_id']
   when 'reveal'
     estimate = action['value']
+
+    # {
+    #   "type": "context",
+    #   "elements": [
+    #     {
+    #       "type": "mrkdwn",
+    #       "text": "*Author:* #{user_real_name}"
+    #     }
+    #   ]
+    # },
+    #   {
+    #     "type": "divider"
+    #   },
+
     blocks = [
-      {
-        "type": "context",
-        "elements": [
-          {
-            "type": "mrkdwn",
-            "text": "*Author:* #{user_real_name}"
-          }
-        ]
-      },
-      {
-        "type": "divider"
-      },
       {
         "type": "section",
         "text": {
