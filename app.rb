@@ -115,7 +115,7 @@ post('/estimate') do
 
 
   # HTTParty.post(ENV['WEBHOOK_URL'], body: body )
-  client.chat_postMessage(blocks: blocks.to_json, channel: ENV['CHANNEL_OR_USER'], icon_url: user['profile']['avatar_hash'], username: username, as_user: false)
+  client.chat_postMessage(blocks: blocks.to_json, channel: ENV['CHANNEL_OR_USER'], icon_url: user['profile']['image_48'], username: username, as_user: false)
   client.chat_postEphemeral(text: "Estimate of #{estimate} sent to #{ENV['CHANNEL_OR_USER']}", user: user['id'], channel: params['channel_id'], icon_emoji: icon, username: username, as_user: false)
 
   status :ok
