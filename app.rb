@@ -10,9 +10,6 @@ end
 # Slack Ruby client
 client = Slack::Web::Client.new
 
-
-# ENV['TEAM_NAMES'] stored as ; delimited list of names (i.e. Jane;John;Chris)
-
 # TODO: delete this endpoint and OLD_WEBHOOK_URL after completion of new endpoints
 post('/') do
   HTTParty.post(ENV['OLD_WEBHOOK_URL'], body: { text: shuffled_names, channel: ENV['CHANNEL_OR_USER'], icon_emoji: ENV['ICON_EMOJI'], username: ENV['USERNAME'] }.to_json )
@@ -319,9 +316,12 @@ end
 
 
 def shuffled_names(name_list)
+  # ENV['TEAM_NAMES'] stored as a comma delimited list of names (i.e. Jane, John, Chris).
+  # Leading and trailing whitespace will be stripped.
+
   name_list = name_list || ENV['TEAM_NAMES']
 
-  names = name_list.split(/;/)
+  names = name_list.split(/,/).map(&:strip)
   names = names.shuffle
   names = names.map.with_index(1) { |name, i| "#{i}. #{name}\n" }
   names.join
