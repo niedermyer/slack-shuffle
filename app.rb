@@ -20,13 +20,15 @@ post('/') do
 end
 
 post('/standup') do
-  log(message: params)
+  payload = params
+  payload = JSON.parse(request.body.read).symbolize_keys unless params[:path]
 
-  icon = params['icon'] || ENV['ICON_EMOJI']
-  channel = params['channel'] || ENV['CHANNEL_OR_USER']
-  text = shuffled_names(params['text'])
+  log(message: payload)
 
-  # HTTParty.post(ENV['OLD_WEBHOOK_URL'], body: { text: text, channel: channel, icon_emoji: icon, username: ENV['USERNAME'] }.to_json )
+  icon = payload[:icon] || ENV['ICON_EMOJI']
+  channel = payload[:channel] || ENV['CHANNEL_OR_USER']
+  text = shuffled_names(payload[:text])
+
   client.chat_postMessage(text: text, channel: channel, icon_emoji: icon, username: ENV['USERNAME'], as_user: false)
 
   status :ok
