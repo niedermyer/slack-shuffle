@@ -17,16 +17,47 @@ post('/') do
 end
 
 post('/standup') do
-  payload = params
-  payload = JSON.parse(request.body.read).symbolize_keys unless params[:path]
+  payload = JSON.parse(request.body.read).symbolize_keys
 
   log(message: payload)
 
   icon = payload[:icon] || ENV['ICON_EMOJI']
   channel = payload[:channel] || ENV['CHANNEL_OR_USER']
-  text = shuffled_names(payload[:text])
+  shuffled_team_list = shuffled_names(payload[:team_names])
+  day_of_week = payload[:day_of_week] || Time.now.strftime('%A')
+  standup_url = payload[:standup_url]
 
-  client.chat_postMessage(text: text, channel: channel, icon_emoji: icon, username: ENV['USERNAME'], as_user: false)
+  blocks = [
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "<!here> *Happy #{day_of_week}!*"
+      },
+      "accessory": {
+        "type": "button",
+        "text": {
+          "type": "plain_text",
+          "text": "Join Standup"
+        },
+        "style": "primary",
+        "url": standup_url,
+        "action_id": "join_standup"
+      }
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": shuffled_team_list
+      },
+    }
+  ]
+
+  client.chat_postMessage(blocks: blocks, channel: channel, icon_emoji: icon, username: 'Standup Time!', as_user: false)
 
   status :ok
 end
