@@ -27,6 +27,8 @@ post('/standup') do
   day_of_week = payload[:day_of_week] || Time.now.strftime('%A')
   standup_url = payload[:standup_url]
 
+  fallback_and_notification_text = "Standup Time! Join at #{standup_url}"
+
   blocks = [
     {
       "type": "section",
@@ -57,7 +59,7 @@ post('/standup') do
     }
   ]
 
-  client.chat_postMessage(blocks: blocks, channel: channel, icon_emoji: icon, username: 'Standup Time!', as_user: false)
+  client.chat_postMessage(text: fallback_and_notification_text, blocks: blocks, channel: channel, icon_emoji: icon, username: 'Standup Time!', as_user: false)
 
   status :ok
 end
