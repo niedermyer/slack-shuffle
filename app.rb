@@ -347,6 +347,10 @@ post('/response') do
   status 200
 end
 
+get('/good-morning') do
+  logger.info("Good morning! I'm waking up, and preparing for the day!")
+  status :ok
+end
 
 def shuffled_names(name_list)
   # ENV['TEAM_NAMES'] stored as a comma delimited list of names (i.e. Jane, John, Chris).
