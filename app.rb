@@ -65,7 +65,6 @@ post('/standup') do
 end
 
 post('/estimate') do
-
   log(message: params)
 
   icon = ':game_die:'
@@ -78,18 +77,6 @@ post('/estimate') do
 
   estimate = params['text']
 
-  # {
-  #   "type": "context",
-  #   "elements": [
-  #     {
-  #       "type": "mrkdwn",
-  #       "text": "*Author:* #{user_real_name}"
-  #     }
-  #   ]
-  # },
-  #   {
-  #     "type": "divider"
-  #   },
   blocks = [
     {
       "type": "section",
@@ -173,19 +160,6 @@ post('/response') do
   when 'reveal'
     estimate = action['value']
 
-    # {
-    #   "type": "context",
-    #   "elements": [
-    #     {
-    #       "type": "mrkdwn",
-    #       "text": "*Author:* #{user_real_name}"
-    #     }
-    #   ]
-    # },
-    #   {
-    #     "type": "divider"
-    #   },
-
     blocks = [
       {
         "type": "section",
@@ -244,106 +218,7 @@ post('/response') do
     log(message: response)
     status 200
   end
-  # response = {
-  #   payload: {
-  #     type: "block_actions",
-  #     team: {
-  #       id: "T0DRJ2NQ4",
-  #       domain: "socialmedialink"
-  #     },
-  #     user: {
-  #       id: "UC8TB7B46",
-  #       username: "luke.niedermyer",
-  #       name: "luke.niedermyer",
-  #       team_id: "T0DRJ2NQ4"
-  #     },
-  #     api_app_id: "AHQ9EDG1Z",
-  #     token: "4tOjWhIZ2l4XL1uGdnu8RI1i",
-  #     container: {
-  #       type: "message",
-  #       message_ts: "1555771432.000600",
-  #       channel_id: "DC6RU5N56",
-  #       is_ephemeral: false
-  #     },
-  #     trigger_id: "615919702295.13868090820.fe5580f5fc17bb55b930fef761f6d09a",
-  #     channel: {
-  #       id: "DC6RU5N56",
-  #       name: "directmessage"
-  #     },
-  #     message: {
-  #       type: "message",
-  #       subtype: "bot_message",
-  #       text: "Luke Niedermyer ********",
-  #       ts: "1555771432.000600",
-  #       bot_id: "BHQBH91FC",
-  #       blocks: [
-  #         {
-  #           type: "context",
-  #           block_id: "N4ul",
-  #           elements: [
-  #             { type: "mrkdwn", text: "*Author:* Luke Niedermyer", verbatim: false }
-  #           ]
-  #         },
-  #         {
-  #           type: "divider",
-  #           block_id: "XLR/+"
-  #         },
-  #         {
-  #           type: "section",
-  #           block_id: "253",
-  #           text: { type: "mrkdwn", text: "********", verbatim: false }
-  #         },
-  #         {
-  #           type: "actions",
-  #           block_id: "jl+s",
-  #           elements: [
-  #             {
-  #               type: "button",
-  #               action_id: "reveal",
-  #               text: {
-  #                 type: "plain_text",
-  #                 text: "Reveal Estimate",
-  #                 emoji: true
-  #               },
-  #               style: "primary",
-  #               value: "reveal"
-  #             },
-  #             {
-  #               type: "button",
-  #               action_id: "delete",
-  #               text: {
-  #                 type: "plain_text",
-  #                 text: "Delete",
-  #                 emoji: true
-  #               },
-  #               style: "danger",
-  #               value: "delete",
-  #               confirm: {
-  #                 title: { type: "plain_text", text: "Delete Luke Niedermyer 's Estimate?", emoji: true }, text: { type: "mrkdwn", text: "Are you sure that you want to delete this estimate?", verbatim: false }, confirm: { type: "plain_text", text: "Yes, delete it!", emoji: true }, "deny": { "type": "plain_text", text: "Nevermind, I' ll keep it", emoji: true }
-  #               }
-  #             }
-  #           ]
-  #         }
-  #       ]
-  #     },
-  #     response_url: "https://hooks.slack.com/actions/T0DRJ2NQ4/602689458274/lVd1sCrwqQXrEeeaNGSTOgdJ",
-  #     actions: [
-  #       {
-  #         action_id: "reveal",
-  #         block_id: "jl+s",
-  #         text: {
-  #           type: "plain_text",
-  #           text: "Reveal Estimate",
-  #           emoji: true
-  #         },
-  #         value: "reveal",
-  #         type: "button",
-  #         style: "primary",
-  #         action_ts: "1555771550.596900"
-  #       }
-  #     ]
-  #   }
-  # }
+
   status 200
 end
 
