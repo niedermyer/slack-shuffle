@@ -10,12 +10,6 @@ end
 # Slack Ruby client
 client = Slack::Web::Client.new
 
-# TODO: delete this endpoint and OLD_WEBHOOK_URL after completion of new endpoints
-post('/') do
-  HTTParty.post(ENV['OLD_WEBHOOK_URL'], body: { text: shuffled_names, channel: ENV['CHANNEL_OR_USER'], icon_emoji: ENV['ICON_EMOJI'], username: ENV['USERNAME'] }.to_json )
-  status :ok
-end
-
 post('/standup') do
   payload = JSON.parse(request.body.read).symbolize_keys
 
@@ -68,7 +62,6 @@ post('/estimate') do
   log(message: params)
 
   icon = ':game_die:'
-
 
   user = HTTParty.get("https://slack.com/api/users.info?token=#{ENV['SLACK_API_TOKEN']}&user=#{params['user_id']}&pretty=1" )['user']
   user_real_name = user['real_name']
@@ -130,10 +123,6 @@ post('/estimate') do
     }
   ]
 
-  body = { blocks: blocks, channel: ENV['CHANNEL_OR_USER'], icon_emoji: icon, username: username, as_user: false }.to_json
-
-
-  # HTTParty.post(ENV['WEBHOOK_URL'], body: body )
   client.chat_postMessage(blocks: blocks.to_json, channel: params['channel_id'], icon_url: user['profile']['image_48'], username: username, as_user: false)
   client.chat_postEphemeral(text: "Estimate of #{estimate} sent", user: user['id'], channel: params['channel_id'], icon_emoji: icon, username: username, as_user: false)
 
@@ -141,7 +130,6 @@ post('/estimate') do
 end
 
 post('/response') do
-  logger.info('I GOT A RESPONSE!!!!')
   log(message: params['payload'], delimiter: '-')
 
   icon = ':game_die:'
